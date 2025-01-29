@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Embedded Projector Control;er  WebApp
+
+A web-based control center interface for managing a Raspberry Pi-4B based projector control system. This application provides real-time control and monitoring capabilities through WebSocket communication.
+
+## Overview
+
+This project is part of a capstone's embedded projector board control system. The control center provides an intuitive web interface for adjusting projector settings and monitoring system status.
+
+## Features
+
+- Real-time projector control via WebSocket connection
+- Image settings adjustment (brightness, contrast)
+- Test pattern generation
+- Color correction tools
+- System reset options
+- Connection status monitoring
+- Factory reset capability
+
+## Technical Stack
+
+- **Frontend**: Next.js with React
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui component library
+- **Network Protocol**: WebSocket (Default: raspberry.pi.local:8080)
+- **Additional Libraries**:
+  - radix-ui components
+  - lucide-react
+  - react/react-dom
+
+## Components
+
+### UI Components
+- Alert
+- Button
+- Card
+- Slider
+- Tabs
+
+### Feature Components
+- ImageControls
+- ResetOptions
+- StatusAlert
+- SystemInfo
+
+## Communication Protocol
+
+The application uses string-based commands for WebSocket communication. Example commands:
+
+```
+brightness 50
+contrast 75
+test pattern
+color correction
+reset
+image settings
+factory reset
+```
+
+## State Management
+
+Connection state is handled by a custom `useNetworkConnection` hook that manages:
+- WebSocket connections
+- Error states
+- Automatic reconnection
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure the WebSocket connection in the environment settings
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Development Status
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Status**: In Progress
