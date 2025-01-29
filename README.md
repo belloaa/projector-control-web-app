@@ -1,4 +1,4 @@
-# Embedded Projector Control;er  WebApp
+# Embedded Projector Controller WebApp
 
 A web-based control center interface for managing a Raspberry Pi-4B based projector control system. This application provides real-time control and monitoring capabilities through WebSocket communication.
 
