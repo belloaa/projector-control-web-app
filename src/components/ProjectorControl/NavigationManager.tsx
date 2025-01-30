@@ -53,8 +53,8 @@ const NavigationManager = ({
       case 'test_pattern':
         return (
           <PageContainer title="Test Pattern" onBack={onBack}>
-            <TestPatterns />
-          </PageContainer>
+            <TestPatterns onButtonClick={console.log} />
+            </PageContainer>
         );
       case 'reset_options':
         return (

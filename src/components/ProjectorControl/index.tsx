@@ -26,10 +26,29 @@ const ProjectorControl = () => {
   }, [statusMessage]);
 
   // Command handlers
-  const handleCommand = (command: string) => {
-    if (!connected) return;
+  const handlePage = (command: string) => {
+    //if (!connected) return;
     sendCommand(command.toLowerCase()).catch(console.error);
     setCurrentPage(command.toLowerCase());
+  };
+
+  const handleCommand = (command: string) => {
+    //if (!connected) return;
+    sendCommand(command.toLowerCase()).catch(console.error);
+  };
+
+  //sending commands for contrast
+  const handleCSlider = (value: number) => {
+    //if (!connected) return;
+    setContrast(value);
+    sendCommand(`contrast ${value}`);
+  };
+
+  //sending commands for brightness
+  const handleBSlider = (value: number) => {
+    //if (!connected) return;
+    setBrightness(value);
+    sendCommand(`brightness ${value}`);
   };
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +95,10 @@ const ProjectorControl = () => {
         <ImageControls
           brightness={brightness}
           contrast={contrast}
-          onBrightnessChange={setBrightness}
-          onContrastChange={setContrast}
-          disabled={!connected}
+          onBrightnessChange={handleBSlider}
+          onContrastChange={handleCSlider}
+          //disabled={!connected}
+          
         />
 
         {/* Control Grid */}
@@ -88,7 +108,7 @@ const ProjectorControl = () => {
             label="File Management"
             color="bg-blue-500"
             size="large"
-            //onClick={() => handleCommand("file_management")}
+            onClick={() => handleCommand("FileUploadInput")}
           >
             <FileUploadInput 
               onFileSelect={handleFileUpload}
@@ -101,28 +121,28 @@ const ProjectorControl = () => {
             icon={Monitor}
             label="System Info"
             color="bg-purple-500"
-            onClick={() => handleCommand("system_info")}
+            onClick={() => handlePage("system_info")}
           />
 
           <ControlCard
             icon={Settings}
             label="Settings"
             color="bg-amber-500"
-            onClick={() => handleCommand("settings")}
+            onClick={() => handlePage("settings")}
           />
 
           <ControlCard
             icon={Grid}
             label="Test Pattern"
             color="bg-green-500"
-            onClick={() => handleCommand("test_pattern")}
+            onClick={() => handlePage("test_pattern")}
           />
 
           <ControlCard
             icon={RefreshCcw}
             label="Reset Options"
             color="bg-red-500"
-            onClick={() => handleCommand("reset_options")}
+            onClick={() => handlePage("reset_options")}
           />
         </div>
       </div>

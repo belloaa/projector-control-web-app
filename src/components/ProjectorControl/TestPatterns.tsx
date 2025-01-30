@@ -2,47 +2,47 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-type TestOptionsProps = {
+type ResetOptionsProps = {
   onButtonClick: (action: string) => void;
   disabled?: boolean;
 }
 
-const TestPatterns: React.FC<TestOptionsProps> = ({ onButtonClick, disabled = false }) => {
+const ResetOptions: React.FC<ResetOptionsProps> = ({ onButtonClick, disabled = false }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Test Pattern</CardTitle>
+        <CardTitle>Patterns</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <Button 
           variant="outline"
-          onClick={() => onButtonClick("Checkerboard")}
+          onClick={() => onButtonClick("Reset image settings")}
           className="w-full"
           disabled={disabled}
         >
-          Checkerboard
+          Reset Image Settings
         </Button>
         <Button 
           variant="outline"
-          onClick={() => onButtonClick("Option 2")}
+          onClick={() => onButtonClick("Reset network settings")}
           className="w-full"
           disabled={disabled}
         >
-          Option 2
+          Reset Network Settings
         </Button>
         <Button 
           variant="destructive"
-          onClick={() => onButtonClick("Reset")}
+          onClick={() => onButtonClick("Factory reset")}
           className="w-full"
           disabled={disabled}
         >
-          Reset
+          Factory Reset
         </Button>
       </CardContent>
     </Card>
   );
 };
 
-export default TestPatterns;
+export default ResetOptions;
