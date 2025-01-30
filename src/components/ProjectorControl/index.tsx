@@ -27,8 +27,8 @@ const ProjectorControl = () => {
 
   // Command handlers
   const handleCommand = (command: string) => {
-    //if (!connected) return;
-    //sendCommand(command.toLowerCase()).catch(console.error);
+    if (!connected) return;
+    sendCommand(command.toLowerCase()).catch(console.error);
     setCurrentPage(command.toLowerCase());
   };
 
@@ -88,7 +88,7 @@ const ProjectorControl = () => {
             label="File Management"
             color="bg-blue-500"
             size="large"
-            onClick={() => handleCommand("file_management")}
+            //onClick={() => handleCommand("file_management")}
           >
             <FileUploadInput 
               onFileSelect={handleFileUpload}
