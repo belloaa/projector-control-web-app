@@ -4,45 +4,43 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-type ResetOptionsProps = {
-  onButtonClick: (action: string) => void;
+type TestPatternsProps = {
+  onButtonClick: (pattern: string) => void;
   disabled?: boolean;
 }
 
-const ResetOptions: React.FC<ResetOptionsProps> = ({ onButtonClick, disabled = false }) => {
+const TestPatterns: React.FC<TestPatternsProps> = ({ onButtonClick, disabled = false }) => {
+  const patterns = [
+    { name: "BLACK", label: "Solid Black" },
+    { name: "WHITE", label: "Solid White" },
+    { name: "RED", label: "Solid Red" },
+    { name: "GREEN", label: "Solid Green" },
+    { name: "BLUE", label: "Solid Blue" },
+    { name: "VERTICAL_LINES", label: "Vertical Lines" },
+    { name: "HORIZONTAL_LINES", label: "Horizontal Lines" },
+    { name: "CHECKERBOARD", label: "Checkerboard" }
+  ];
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Patterns</CardTitle>
+        <CardTitle>Test Patterns</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <Button 
-          variant="outline"
-          onClick={() => onButtonClick("Reset image settings")}
-          className="w-full"
-          disabled={disabled}
-        >
-          Reset Image Settings
-        </Button>
-        <Button 
-          variant="outline"
-          onClick={() => onButtonClick("Reset network settings")}
-          className="w-full"
-          disabled={disabled}
-        >
-          Reset Network Settings
-        </Button>
-        <Button 
-          variant="destructive"
-          onClick={() => onButtonClick("Factory reset")}
-          className="w-full"
-          disabled={disabled}
-        >
-          Factory Reset
-        </Button>
+      <CardContent className="grid grid-cols-2 gap-4">
+        {patterns.map((pattern) => (
+          <Button 
+            key={pattern.name}
+            variant="outline"
+            onClick={() => onButtonClick(`pattern ${pattern.name}`)}
+            className="w-full"
+            disabled={disabled}
+          >
+            {pattern.label}
+          </Button>
+        ))}
       </CardContent>
     </Card>
   );
 };
 
-export default ResetOptions;
+export default TestPatterns;

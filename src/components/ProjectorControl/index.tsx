@@ -6,6 +6,7 @@ import { Power, Settings, RefreshCcw, Files, Monitor, Grid, Network } from 'luci
 import { Toast } from './Toast';
 import ImageControls from './ImageControls';
 import NavigationManager from './NavigationManager';
+import TestPatterns from './TestPatterns';
 
 const ProjectorControl = () => {
   // State management
@@ -37,6 +38,12 @@ const ProjectorControl = () => {
     sendCommand(command.toLowerCase()).catch(console.error);
   };
 
+  // Handle test pattern commands
+  const handleTestPattern = (pattern: string) => {
+    //if (!connected) return;
+    sendCommand(pattern.toLowerCase()).catch(console.error);
+  };
+
   //sending commands for contrast
   const handleCSlider = (value: number) => {
     //if (!connected) return;
@@ -57,19 +64,20 @@ const ProjectorControl = () => {
     if (file) await sendVideo(file);
   };
 
-  // If a page is currently showing, only render that
+
+  // If any other page is showing
   if (currentPage) {
     return (
       <div className="container mx-auto max-w-4xl p-4">
-      <NavigationManager 
-        currentPage={currentPage} 
-        onBack={() => setCurrentPage(null)} 
-      />
+        <NavigationManager 
+          currentPage={currentPage} 
+          onBack={() => setCurrentPage(null)}
+          onCommand={handleCommand}
+          isConnected={connected}
+        />
       </div>
-
     );
   }
-
   // Otherwise render the main dashboard
   return (
     <div className="container mx-auto max-w-4xl p-4 space-y-6">
@@ -98,7 +106,6 @@ const ProjectorControl = () => {
           onBrightnessChange={handleBSlider}
           onContrastChange={handleCSlider}
           //disabled={!connected}
-          
         />
 
         {/* Control Grid */}
@@ -112,7 +119,7 @@ const ProjectorControl = () => {
           >
             <FileUploadInput 
               onFileSelect={handleFileUpload}
-              disabled={ !connected || isUploading}
+              disabled={!connected || isUploading}
               status={uploadStatus}
             />
           </ControlCard>
@@ -150,7 +157,7 @@ const ProjectorControl = () => {
   );
 };
 
-// Extracted Components
+// Extracted Components remain the same
 const ControlCard = ({ 
   icon: Icon, 
   label, 

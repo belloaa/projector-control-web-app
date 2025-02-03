@@ -9,7 +9,8 @@ interface NetworkConnectionHook {
 }
 
 export const useNetworkConnection = (
-  host: string = '10.42.0.47',
+  //host: string = '10.42.0.47',
+  host: string = 'localhost',
   port: number = 8080
 ): NetworkConnectionHook => {
   const [connected, setConnected] = useState(false);

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SystemInfo from './SystemInfo';
 import ResetOptions from './ResetOptions';
 import Settings from './SettingsPage';
 import TestPatterns from './TestPatterns';
-
 
 const PageContainer = ({ children, title, onBack }: {
   children: React.ReactNode;
@@ -31,10 +30,14 @@ const PageContainer = ({ children, title, onBack }: {
 
 const NavigationManager = ({ 
   currentPage, 
-  onBack 
+  onBack,
+  onCommand,
+  isConnected = true
 }: { 
   currentPage: string | null; 
-  onBack: () => void 
+  onBack: () => void;
+  onCommand: (command: string) => void;
+  isConnected?: boolean;
 }) => {
   const renderPage = () => {
     switch (currentPage) {
@@ -53,13 +56,16 @@ const NavigationManager = ({
       case 'test_pattern':
         return (
           <PageContainer title="Test Pattern" onBack={onBack}>
-            <TestPatterns onButtonClick={console.log} />
-            </PageContainer>
+            <TestPatterns 
+              onButtonClick={onCommand}
+              disabled={!isConnected}
+            />
+          </PageContainer>
         );
       case 'reset_options':
         return (
           <PageContainer title="Reset Options" onBack={onBack}>
-            <ResetOptions onButtonClick={console.log} />
+            <ResetOptions onButtonClick={onCommand} />
           </PageContainer>
         );
       default:
