@@ -11,7 +11,7 @@ interface NetworkConnectionHook {
 
 export const useNetworkConnection = (
   // Default to localhost for development, can be overridden
-  host: string = 'localhost',
+  host: string = '10.42.0.47',
   port: number = 8080
 ): NetworkConnectionHook => {
   // State variables
