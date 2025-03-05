@@ -1,37 +1,48 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 
+// Defining what this hook returns
 interface NetworkConnectionHook {
-  connected: boolean;
-  statusMessage: string;
-  connect: () => Promise<void>;
-  disconnect: () => Promise<void>;
-  sendCommand: (command: string) => Promise<void>;
+  connected: boolean;         // Is the connection active?
+  statusMessage: string;      // User-friendly status message
+  connect: () => Promise<void>;      // Function to establish connection
+  disconnect: () => Promise<void>;   // Function to close connection
+  sendCommand: (command: string) => Promise<void>; // Function to send messages
 }
 
 export const useNetworkConnection = (
-  //host: string = '10.42.0.47',
+  // Default to localhost for development, can be overridden
   host: string = 'localhost',
   port: number = 8080
 ): NetworkConnectionHook => {
+  // State variables
   const [connected, setConnected] = useState(false);
   const [statusMessage, setStatusMessage] = useState('System ready - Click "Connect" to begin');
-  const wsRef = useRef<WebSocket | null>(null);
-  const mountedRef = useRef(true);
-
-  // Clean up on unmount
+  
+  // References to maintain across renders
+  const wsRef = useRef<WebSocket | null>(null);  // Store WebSocket connection
+  const mountedRef = useRef(true);               // Track if component is mounted
+  
+  // Handle component unmounting
   useEffect(() => {
     return () => {
-      mountedRef.current = false;
+      mountedRef.current = false;  // Prevent state updates after unmount
+      
+      // Close WebSocket on unmount
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
     };
   }, []);
 
+  // Function to establish WebSocket connection
   const connect = useCallback(async () => {
     try {
       setStatusMessage('Connecting to Raspberry Pi...');
       
-      // create WebSocket connection
+      // Create new WebSocket connection
       const ws = new WebSocket(`ws://${host}:${port}`);
       
+      // Set up event handlers
       ws.onopen = () => {
         if (mountedRef.current) {
           setConnected(true);
@@ -39,14 +50,14 @@ export const useNetworkConnection = (
           wsRef.current = ws;
         }
       };
-
+      
       ws.onmessage = (event) => {
         if (mountedRef.current) {
           console.log('Received:', event.data);
           setStatusMessage(`Device message: ${event.data}`);
         }
       };
-
+      
       ws.onerror = (error) => {
         if (mountedRef.current) {
           console.error('WebSocket error:', error);
@@ -54,7 +65,7 @@ export const useNetworkConnection = (
           setConnected(false);
         }
       };
-
+      
       ws.onclose = () => {
         if (mountedRef.current) {
           setConnected(false);
@@ -71,6 +82,7 @@ export const useNetworkConnection = (
     }
   }, [host, port]);
 
+  // Function to close WebSocket connection
   const disconnect = useCallback(async () => {
     if (wsRef.current) {
       try {
@@ -89,12 +101,13 @@ export const useNetworkConnection = (
     }
   }, []);
 
+  // Function to send commands through the WebSocket
   const sendCommand = useCallback(async (command: string) => {
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
       setStatusMessage('No connection to Raspberry Pi. Please connect first.');
       throw new Error('No connection to Raspberry Pi');
     }
-
+    
     try {
       wsRef.current.send(command);
       if (mountedRef.current) {
@@ -109,15 +122,7 @@ export const useNetworkConnection = (
     }
   }, []);
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, []);
-
+  // Return the hook interface
   return {
     connected,
     statusMessage,

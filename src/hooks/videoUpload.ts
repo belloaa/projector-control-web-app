@@ -6,7 +6,7 @@ interface videoHook {
   sendVideo: (file: File) => Promise<void>;
 }
 
-export const videoUpload = (
+export const useVideoUpload = (
   host: string = '10.42.0.47',
   port: number = 8081 //new websocket port for video
 ): videoHook => {
